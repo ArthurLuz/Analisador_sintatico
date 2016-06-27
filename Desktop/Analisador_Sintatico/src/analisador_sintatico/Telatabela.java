@@ -6,6 +6,7 @@
 package analisador_sintatico;
 
 import java.util.ArrayList;
+import java.util.Stack;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -16,12 +17,15 @@ import javax.swing.table.TableColumn;
  * @author CCSST
  */
 public class Telatabela extends javax.swing.JFrame {
-
     int linha_length = 1;
     int coluna_length = 1;
     DefaultTableModel model;
     String[][] tabelinha;
     ArrayList <String> token=new ArrayList();
+    
+    
+    
+    
     /**
      * Creates new form Telatabela
      */
@@ -104,7 +108,7 @@ public class Telatabela extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Analisar");
+        jButton1.setText("Ok");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -139,7 +143,7 @@ public class Telatabela extends javax.swing.JFrame {
                                 .addComponent(jLabel1)
                                 .addGap(224, 224, 224)
                                 .addComponent(jLabel2)))))
-                .addContainerGap(250, Short.MAX_VALUE))
+                .addContainerGap(260, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,12 +203,13 @@ public class Telatabela extends javax.swing.JFrame {
         tabela.removeColumn(coluna);
         tabela.revalidate();
         coluna_length--;
-        System.out.println("token"+token);
+        //System.out.println("token"+token);
         
     }//GEN-LAST:event_colunamenosActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        token.add("$");
         tabelinha = new String[linha_length][coluna_length];
         
         for(int i = 0; i< linha_length; i++){
@@ -216,15 +221,31 @@ public class Telatabela extends javax.swing.JFrame {
             }
         }
         
-        for(int i = 0; i< linha_length; i++){
-            for(int j = 0; j< coluna_length; j++){
-                System.out.print("tabelinha: " + tabelinha[i][j]+"  | ");
-            }
-            System.out.println("\n");
-        }
-        
+//        for(int i = 0; i< linha_length; i++){
+//            for(int j = 0; j< coluna_length; j++){
+//                System.out.print("tabelinha: " + tabelinha[i][j]+"  | ");
+//            }
+//            System.out.println("\n");
+//        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public int getLinha_length() {
+        return linha_length;
+    }
+
+    public int getColuna_length() {
+        return coluna_length;
+    }
+
+    public String[][] getTabelinha() {
+        return tabelinha;
+    }
+
+    public ArrayList<String> getToken() {
+        return token;
+    }
+    
     /**
      * @param args the command line arguments
      */

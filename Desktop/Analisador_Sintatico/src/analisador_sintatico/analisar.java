@@ -5,6 +5,9 @@
  */
 package analisador_sintatico;
 
+import java.util.ArrayList;
+import java.util.Stack;
+
 /**
  *
  * @author Arthur
@@ -14,10 +17,16 @@ public class analisar extends javax.swing.JFrame {
     /**
      * Creates new form analisar
      */
+    Stack<String> pilha = new Stack();
+    ArrayList <String> Token = new ArrayList();
+    Telatabela t2 = new Telatabela();
+    String[][]matriz ;
+    int linhatam,colunatam;
     public analisar() {
         initComponents();
+        pilha.push("$");
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,21 +36,88 @@ public class analisar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        analisae = new javax.swing.JButton();
+        preenche = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jLabel1.setText("Tokens:");
+
+        analisae.setText("Analisar");
+        analisae.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analisaeActionPerformed(evt);
+            }
+        });
+
+        preenche.setText("Preencher Tabela");
+        preenche.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                preencheActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel2.setText("Analisador Sintático");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(analisae)
+                .addGap(92, 92, 92)
+                .addComponent(preenche)
+                .addGap(77, 77, 77))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addComponent(jLabel2)))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(analisae)
+                    .addComponent(preenche))
+                .addGap(23, 23, 23))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void preencheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preencheActionPerformed
+        Telatabela t = new Telatabela();
+        t2=t;
+        t.setVisible(true);
+    }//GEN-LAST:event_preencheActionPerformed
+
+    private void analisaeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analisaeActionPerformed
+        Token = t2.getToken();
+        linhatam = t2.getLinha_length();
+        colunatam = t2.getColuna_length();
+    }//GEN-LAST:event_analisaeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +155,11 @@ public class analisar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton analisae;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JButton preenche;
     // End of variables declaration//GEN-END:variables
 }
