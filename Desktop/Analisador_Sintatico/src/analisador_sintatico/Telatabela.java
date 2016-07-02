@@ -22,6 +22,7 @@ public class Telatabela extends javax.swing.JFrame {
     DefaultTableModel model;
     String[][] tabelinha;
     ArrayList <String> token=new ArrayList();
+    ArrayList <String> variaveis =new ArrayList();
     
     
     
@@ -57,7 +58,7 @@ public class Telatabela extends javax.swing.JFrame {
         colunamenos = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Trabalho 6");
         setResizable(false);
 
@@ -213,6 +214,8 @@ public class Telatabela extends javax.swing.JFrame {
         tabelinha = new String[linha_length][coluna_length];
         
         for(int i = 0; i< linha_length; i++){
+            if(tabela.getValueAt(i,0)!=null)
+                variaveis.add(tabela.getValueAt(i,0).toString());
             for(int j = 0; j< coluna_length; j++){
                 if(tabela.getValueAt(i, j) == null)
                     tabelinha[i][j] = "";
@@ -220,7 +223,7 @@ public class Telatabela extends javax.swing.JFrame {
                     tabelinha[i][j] = tabela.getValueAt(i, j).toString();
             }
         }
-        
+        this.dispose();
 //        for(int i = 0; i< linha_length; i++){
 //            for(int j = 0; j< coluna_length; j++){
 //                System.out.print("tabelinha: " + tabelinha[i][j]+"  | ");
@@ -237,7 +240,10 @@ public class Telatabela extends javax.swing.JFrame {
     public int getColuna_length() {
         return coluna_length;
     }
-
+    
+    public ArrayList<String> getVariaveis() {
+        return variaveis;
+    }
     public String[][] getTabelinha() {
         return tabelinha;
     }

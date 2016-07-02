@@ -7,6 +7,8 @@ package analisador_sintatico;
 
 import java.util.ArrayList;
 import java.util.Stack;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -19,9 +21,13 @@ public class analisar extends javax.swing.JFrame {
      */
     Stack<String> pilha = new Stack();
     ArrayList <String> Token = new ArrayList();
+    ArrayList <String> listaentrada = new ArrayList();
+    ArrayList <String> var = new ArrayList();
     Telatabela t2 = new Telatabela();
     String[][]matriz ;
     int linhatam,colunatam;
+    String entry;
+    
     public analisar() {
         initComponents();
         pilha.push("$");
@@ -37,17 +43,18 @@ public class analisar extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        entra = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         analisae = new javax.swing.JButton();
         preenche = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        entra.setColumns(20);
+        entra.setRows(5);
+        jScrollPane1.setViewportView(entra);
 
         jLabel1.setText("Tokens:");
 
@@ -105,6 +112,7 @@ public class analisar extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void preencheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preencheActionPerformed
@@ -117,6 +125,87 @@ public class analisar extends javax.swing.JFrame {
         Token = t2.getToken();
         linhatam = t2.getLinha_length();
         colunatam = t2.getColuna_length();
+        int cont =0;
+        int i=0;
+        String aux="";
+        entry =  entra.getText();
+        var = t2.getVariaveis();
+        
+        pilha.push(var.get(0));
+        
+        while(cont<entry.length()){            
+            if(entry.charAt(cont)=='<'){
+                i=cont+1;
+                aux="";
+                while(entry.charAt(i)!='>'){
+                    aux+=""+entry.charAt(i);
+                    i++;
+                }  
+                cont=i;
+            }
+            listaentrada.add(aux);
+            cont++;
+            
+        }
+        
+        
+        
+        //System.out.println(listaentrada.toString());
+        matriz= t2.getTabelinha();
+        for(int x = 0; x< linhatam; x++){
+            for(int y = 0; y< colunatam; y++){// TODO Achar a coluna e a linha, esses for n presta asuhasuhasus
+                
+                if(pilha.pop().equals(listaentrada.get(y))){ //pega a coluna dos tokens pra encontrar em qual coluna está a transição
+                    
+                    cont = matriz[x][y].length();
+              
+                    aux="";
+                    while(cont>0){            
+                        i = cont-1;
+                        aux = matriz[x][y].charAt(i) + aux;
+                        for(int j = 0; j < Token.size(); j++){
+                            if(aux == Token.get(j)){
+                                pilha.push(aux);
+                                aux = "";
+                            }
+                        }
+                        
+                        for(int k = 0; k < var.size(); k++){
+                            if(aux == var.get(k)){
+                                pilha.push(aux);
+                                aux = "";
+                            }
+                        }
+                        
+                        if(aux=="&"){
+                            pilha.remove(pilha.pop());
+                            aux = "";
+                        }
+                        cont = i + 1;
+                        //listaentrada.
+                        
+                        //else pilha
+                        cont--;
+                    }
+                    
+                }
+                
+                if(Token.contains(pilha.pop())){
+                    pilha.remove(pilha.pop());
+                    var.remove(var.get(0));
+                }
+                
+                else if(pilha.pop() == "$" && var.get(0) == "$"){
+                    System.out.println("Reconhecido");
+                }
+                else
+                    System.out.println("Vai tomar no seu cu!");
+//                
+                
+                }   
+            }
+        
+        
     }//GEN-LAST:event_analisaeActionPerformed
 
     /**
@@ -156,10 +245,10 @@ public class analisar extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton analisae;
+    private javax.swing.JTextArea entra;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton preenche;
     // End of variables declaration//GEN-END:variables
 }
