@@ -30,7 +30,7 @@ public class analisar extends javax.swing.JFrame {
     
     public analisar() {
         initComponents();
-        pilha.push("$");
+        //pilha.push("$");
     }
     
     /**
@@ -130,10 +130,10 @@ public class analisar extends javax.swing.JFrame {
         String aux="";
         entry =  entra.getText();
         var = t2.getVariaveis();
-        
+        pilha.push("$");
         pilha.push(var.get(0));
         
-        while(cont<entry.length()){            
+        while(cont<entry.length()){ //adiciona a entrada numm arraylist           
             if(entry.charAt(cont)=='<'){
                 i=cont+1;
                 aux="";
@@ -148,37 +148,41 @@ public class analisar extends javax.swing.JFrame {
             
         }
         
-        
-        
+        //System.out.println("Pilha" + pilha.pop());
+        //int z = 0;
         //System.out.println(listaentrada.toString());
         matriz= t2.getTabelinha();
+        while(listaentrada.size() > 1){
+        
         for(int x = 0; x< linhatam; x++){
-            for(int y = 0; y< colunatam; y++){// TODO Achar a coluna e a linha, esses for n presta asuhasuhasus
+            for(int y = 1; y< colunatam; y++){// TODO Achar a coluna e a linha, esses for n presta asuhasuhasus
                 
-                if(pilha.pop().equals(listaentrada.get(y))){ //pega a coluna dos tokens pra encontrar em qual coluna está a transição
+                if((listaentrada.get(0).equals(Token.get(y-1))) && (pilha.peek().equals(var.get(x)))){ //pega a coluna dos tokens pra encontrar em qual coluna está a transição
                     
                     cont = matriz[x][y].length();
+                    System.out.println("matriz: " + matriz[x][y]);
               
                     aux="";
                     while(cont>0){            
                         i = cont-1;
                         aux = matriz[x][y].charAt(i) + aux;
                         for(int j = 0; j < Token.size(); j++){
-                            if(aux == Token.get(j)){
+                            if(aux.equals(Token.get(j))){
+                                pilha.pop();
                                 pilha.push(aux);
                                 aux = "";
                             }
                         }
                         
                         for(int k = 0; k < var.size(); k++){
-                            if(aux == var.get(k)){
+                            if(aux.equals(var.get(k))){
                                 pilha.push(aux);
                                 aux = "";
                             }
                         }
                         
                         if(aux=="&"){
-                            pilha.remove(pilha.pop());
+                            pilha.pop();
                             aux = "";
                         }
                         cont = i + 1;
@@ -190,20 +194,25 @@ public class analisar extends javax.swing.JFrame {
                     
                 }
                 
-                if(Token.contains(pilha.pop())){
-                    pilha.remove(pilha.pop());
-                    var.remove(var.get(0));
-                }
-                
-                else if(pilha.pop() == "$" && var.get(0) == "$"){
-                    System.out.println("Reconhecido");
-                }
-                else
-                    System.out.println("Vai tomar no seu cu!");
-//                
-                
-                }   
             }
+        }
+            System.out.println("entrada: " + listaentrada.get(0) + "pilha" + pilha.peek());
+        if(listaentrada.get(0).contains(pilha.peek())){
+                        pilha.pop();
+                        listaentrada.remove(listaentrada.get(0));
+                        System.out.println("removeu[listaentrada");
+                    }
+   
+    }
+        if(pilha.peek() == "$" && var.get(0) == "$"){
+        System.out.println("Reconhecido");
+                        //break;
+        }
+        else{
+        System.out.println("Vai tomar no seu cu!");
+                        //break;
+        }   
+            
         
         
     }//GEN-LAST:event_analisaeActionPerformed
